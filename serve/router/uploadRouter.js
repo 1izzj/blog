@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require('fs')
 const GenId = require("../utils/snowId");
+//随机生成的id
 const genid = new GenId({ WorkerId: 1 });
 
 router.post('/rich_upload',async (req,res) => {

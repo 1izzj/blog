@@ -11,13 +11,13 @@ router.post("/add", checkToken, (req, res) => {
   blog
     .create(obj)
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "添加成功",
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "添加失败",
       });
@@ -30,13 +30,13 @@ router.delete("/delete", checkToken,(req, res) => {
   blog
     .deleteMany({ _id: id })
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "删除成功",
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "删除失败",
       });
@@ -53,14 +53,14 @@ router.put("/updata", checkToken,(req, res) => {
       { title: obj.title, content: obj.content, categoryId: obj.categoryId }
     )
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "修改成功",
         data: data,
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "修改失败",
       });
@@ -78,13 +78,15 @@ router.get("/find", (req, res) => {
 
   //封装查询函数
   async function search(queryConditions, page, pageSize) {
+    //符合查询条件的文件总数
     const totalPosts = await blog.countDocuments(queryConditions);
+    //总共几页
     const totalPages = Math.ceil(totalPosts / pageSize);
     const blogPosts = await blog
       .find(queryConditions)
       .skip((page - 1) * pageSize) // 跳过前面的文章
       .limit(pageSize); // 限制每页文章数量
-    return res.json({
+    return res.send({
       code: "200",
       totalPages,
       totalPosts,

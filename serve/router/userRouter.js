@@ -9,13 +9,13 @@ router.post("/add", (req, res) => {
   let { username, password } = req.body;
   User.create({ username: username, password: password, token: "" })
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "注册成功",
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "注册失败",
       });
@@ -30,13 +30,13 @@ router.get("/login", async (req, res) => {
     user.token = genid.NextId();
     const data = await user.save();
     data.password = "";
-    res.json({
+    res.send({
       code: "200",
       message: "登录成功",
       data: data,
     });
   } catch {
-    res.json({
+    res.send({
       code: "500",
       message: "登录失败",
     });

@@ -11,13 +11,13 @@ router.post("/add", checkToken, (req, res) => {
   category
     .create({ name: name, categoryId: genid.NextId() })
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "添加成功",
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "添加失败",
       });
@@ -30,13 +30,13 @@ router.delete("/delete", checkToken, (req, res) => {
   category
     .deleteMany({ _id: id })
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "删除成功",
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "删除失败",
       });
@@ -49,13 +49,13 @@ router.put("/updata", checkToken, (req, res) => {
   category
     .updateMany({ _id: id }, { name: name })
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "修改成功",
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "修改失败",
       });
@@ -68,14 +68,14 @@ router.get("/find", (req, res) => {
   category
     .find({ _id: id })
     .then((data) => {
-      res.json({
+      res.send({
         code: "200",
         message: "查询成功",
         data: data,
       });
     })
     .catch((err) => {
-      res.json({
+      res.send({
         code: "500",
         message: "查询失败",
       });
