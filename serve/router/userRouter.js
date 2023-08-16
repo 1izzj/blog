@@ -24,7 +24,7 @@ router.post("/add", (req, res) => {
 
 //登录接口
 router.get("/login", async (req, res) => {
-  let { username, password } = req.body;
+  let { username, password } = req.query;
   try {
     const user = await User.findOne({ username: username, password: password });
     user.token = genid.NextId();
@@ -33,7 +33,7 @@ router.get("/login", async (req, res) => {
     res.send({
       code: "200",
       message: "登录成功",
-      data: data,
+      admins: data,
     });
   } catch {
     res.send({
