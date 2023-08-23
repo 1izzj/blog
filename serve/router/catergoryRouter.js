@@ -5,6 +5,11 @@ const GenId = require("../utils/snowId");
 const genid = new GenId({ WorkerId: 1 });
 const checkToken = require("../middleware/checkToken");
 
+//判断对象是否为空
+function isObjectEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
 //添加类别
 router.post("/add", checkToken, (req, res) => {
   let { name } = req.body;
@@ -64,22 +69,44 @@ router.put("/updata", checkToken, (req, res) => {
 
 //查询类别
 router.get("/find", (req, res) => {
-  let { id } = req.query;
-  category
-    .find({ _id: id })
-    .then((data) => {
-      res.send({
-        code: "200",
-        message: "查询成功",
-        data: data,
+  if (!isObjectEmpty(req.query)) {
+    let { id } = req.query;
+    category
+      .find({ _id: id })
+      .then((data) => {
+        res.send({
+          code: "200",
+          message: "查询成功",
+          data: data,
+        });
+      })
+      .catch((err) => {
+        res.send({
+          code: "500",
+          message: "查询失败",
+        });
       });
-    })
-    .catch((err) => {
+  }else{
+    category.find({}).then((data) => {
+      // console.log(data);
+      res.send({
+          code: "200",
+          message: "查询成功",
+          data: data,
+      })
+    }
+    ).catch((err) => {
+      console.log(err)
       res.send({
         code: "500",
         message: "查询失败",
       });
-    });
+    }
+    )
+  }
 });
+
+//查询得到数据库中所有类别
+// router.get("/find");
 
 module.exports = router;
